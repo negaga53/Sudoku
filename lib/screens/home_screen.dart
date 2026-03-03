@@ -9,6 +9,7 @@ import 'package:sudoku_app/providers/game_provider.dart';
 import 'package:sudoku_app/providers/statistics_provider.dart';
 import 'package:sudoku_app/screens/difficulty_screen.dart';
 import 'package:sudoku_app/screens/game_screen.dart';
+import 'package:sudoku_app/screens/multiplayer_menu_screen.dart';
 import 'package:sudoku_app/screens/settings_screen.dart';
 import 'package:sudoku_app/screens/statistics_screen.dart';
 import 'package:sudoku_app/theme/app_colors.dart';
@@ -84,6 +85,23 @@ class HomeScreen extends ConsumerWidget {
 
                   const SizedBox(height: 14),
                   _MenuButton(
+                    icon: Icons.people_rounded,
+                    label: l10n.get('online2Players'),
+                    isDark: isDark,
+                    accent: accent,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const MultiplayerMenuScreen(),
+                      ),
+                    ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 500.ms, delay: 250.ms)
+                      .slideY(begin: 0.15, end: 0, curve: Curves.easeOut),
+
+                  const SizedBox(height: 14),
+                  _MenuButton(
                     icon: Icons.bar_chart_rounded,
                     label: l10n.statistics,
                     isDark: isDark,
@@ -96,7 +114,7 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   )
                       .animate()
-                      .fadeIn(duration: 500.ms, delay: 300.ms)
+                      .fadeIn(duration: 500.ms, delay: 350.ms)
                       .slideY(begin: 0.15, end: 0, curve: Curves.easeOut),
 
                   const SizedBox(height: 14),
@@ -113,7 +131,7 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   )
                       .animate()
-                      .fadeIn(duration: 500.ms, delay: 400.ms)
+                      .fadeIn(duration: 500.ms, delay: 450.ms)
                       .slideY(begin: 0.15, end: 0, curve: Curves.easeOut),
 
                   const SizedBox(height: 40),

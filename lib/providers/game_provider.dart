@@ -72,6 +72,49 @@ class GameNotifier extends StateNotifier<GameState> {
   }
 
   // -----------------------------------------------------------------------
+  // Multiplayer game (puzzle provided by server)
+  // -----------------------------------------------------------------------
+
+  /// Initialises the board from a pre-generated puzzle/solution pair.
+  /// Used for multiplayer so both players get the same grid.
+  void startMultiplayerGame({
+    required Difficulty difficulty,
+    required List<List<int>> puzzle,
+    required List<List<int>> solution,
+  }) {
+    final settings = _ref.read(settingsProvider);
+    _board = SudokuBoard();
+
+    for (int r = 0; r < 9; r++) {
+      for (int c = 0; c < 9; c++) {
+        final puzzleValue = puzzle[r][c];
+        final solutionValue = solution[r][c];
+
+        _board.setCell(
+          r,
+          c,
+          SudokuCell(
+            row: r,
+            col: c,
+            value: puzzleValue,
+            solution: solutionValue,
+            state: puzzleValue != 0 ? CellState.given : CellState.empty,
+          ),
+        );
+      }
+    }
+
+    state = GameState(
+      difficulty: difficulty,
+      status: GameStatus.inProgress,
+      maxMistakes: settings.mistakeLimit == -1
+          ? 999
+          : settings.mistakeLimit,
+      gameId: DateTime.now().millisecondsSinceEpoch.toString(),
+    );
+  }
+
+  // -----------------------------------------------------------------------
   // Number-first selection (select number from pad, then tap cell)
   // -----------------------------------------------------------------------
 
